@@ -20,8 +20,9 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 
  Features
 ************
-The Xajax ClassAttributes extension allows you to add class attributes to a content class 
-without the need of a page refresh. It is especially useful when editing large content classes.
+The Xajax ClassAttributes extension allows you to add class attributes to a content class or 
+reorder class attributes without the need of a page refresh. It is especially useful when editing 
+large content classes.
 
 
  Usage
@@ -31,3 +32,6 @@ The extension adds a second button "Add attribute with Ajax" to the class/edit v
 at the right of the "Add attribute" button.
 
 Click on the "Add attribute with Ajax" button to add a new class attribute of the selected datatype.
+
+There's also a second row of "up" and "down" buttons for each class attribute. Use these buttons 
+to reorder class attributes by using Ajax.

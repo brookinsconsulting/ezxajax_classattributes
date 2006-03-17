@@ -1,2 +1,6 @@
+1.1
+- basic reordering functionality
+- fixed: number of a new attribute is sometimes wrong (placement was used)
+
 1.0
 - initial public release
