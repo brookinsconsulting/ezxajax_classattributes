@@ -27,7 +27,7 @@ function addNewAttributeRows( attribid )
         var rows=table.rows;
 
         var newHeaderRow=table.insertRow(rows.length);
-        newHeaderRow.id="newHeaderRow" + attribid;
+        newHeaderRow.id="AttributeHeaderRow_" + attribid;
 
         var newHeader1=document.createElement( "th" );
         newHeader1.className="tight";
@@ -53,6 +53,69 @@ function addNewAttributeRows( attribid )
         var newCell2=newRow.insertCell(1);
         newCell2.colSpan=2;
         newCell2.id="newCell" + attribid + "_2";
+    }
+    else
+    {
+        window.alert( 'Unable to find attributes table.' );
+    }
+}
+
+function moveAttributeRows( attribid, direction )
+{
+    var attributesTable=document.getElementById( 'AttributesTable' );
+
+    if ( attributesTable != null )
+    {
+        var rows=attributesTable.rows;
+
+        var i;
+        var element;
+        for(i=0;i<rows.length;i++)
+        {
+            if ( rows[i].id == ( "AttributeHeaderRow_" +  attribid ) )
+            {
+                attributeHeader = rows[i];
+                attribute = rows[i+1];
+
+                if ( direction )
+                {
+                    //move down
+                    if ( i == rows.length -2 )
+                    {
+                        // last attribute, move to top
+                        attribute.parentNode.insertBefore( attribute, rows[0] );
+                        attribute.parentNode.insertBefore( attributeHeader, attribute );
+                        break;
+                    }
+                    else
+                    {
+                        var nextAttributeHeader = rows[i+2];
+                        var nextAttribute = rows[i+3];
+                        attribute.parentNode.insertBefore( nextAttribute, attributeHeader );
+                        attribute.parentNode.insertBefore( nextAttributeHeader, nextAttribute );
+                        break;
+                    }
+                }
+                else
+                {
+                    // move up
+                    if ( i == 0 )
+                    {
+                        // first attribute, move to bottom
+                        attribute.parentNode.appendChild( attribute );
+                        attribute.parentNode.insertBefore( attributeHeader, attribute );
+                        break;
+                    }
+                    else
+                    {
+                        var previousAttributeHeader = rows[i-2];
+                        attribute.parentNode.insertBefore( attribute, previousAttributeHeader );
+                        attribute.parentNode.insertBefore( attributeHeader, attribute );
+                        break;
+                    }
+                }
+            }
+        }
     }
     else
     {
@@ -160,13 +223,17 @@ function addNewAttributeRows( attribid )
 {section show=$attributes}
 {section var=Attributes loop=$attributes}
 
-<tr>
+<tr id="AttributeHeaderRow_{$Attributes.item.id}">
     <th class="tight"><input type="checkbox" name="ContentAttribute_id_checked[]" value="{$Attributes.item.id}" title="{'Select attribute for removal. Click the "Remove selected attributes" button to actually remove the selected attributes.'|i18n( 'design/admin/class/edit' )|wash}" /></th>
     <th class="wide">{$Attributes.number}. {$Attributes.item.name|wash} [{$Attributes.item.data_type.information.name|wash}] (id:{$Attributes.item.id})</th>
     <th class="tight">
       <div class="listbutton">
           <input type="image" src={'button-move_down.gif'|ezimage} alt="{'Down'|i18n( 'design/admin/class/edit' )}" name="MoveDown_{$Attributes.item.id}" title="{'Use the order buttons to set the order of the class attributes. The up arrow moves the attribute one place up. The down arrow moves the attribute one place down.'|i18n( 'design/admin/class/edit' )}" />&nbsp;
           <input type="image" src={'button-move_up.gif'|ezimage} alt="{'Up'|i18n( 'design/admin/class/edit' )}" name="MoveUp_{$Attributes.item.id}" title="{'Use the order buttons to set the order of the class attributes. The up arrow moves the attribute one place up. The down arrow moves the attribute one place down.'|i18n( 'design/admin/class/edit' )}" />
+      </div>
+      <div class="listbutton">
+          <input type="image" src={'button-move_down.gif'|ezimage} alt="{'Down'|i18n( 'design/admin/class/edit' )}" name="MoveDown_{$Attributes.item.id}" title="{'Use the order buttons to set the order of the class attributes. The up arrow moves the attribute one place up. The down arrow moves the attribute one place down.'|i18n( 'design/admin/class/edit' )}" onclick="xajax_moveClassAttribute( {$Attributes.item.id}, 1 );return false;"/>&nbsp;
+          <input type="image" src={'button-move_up.gif'|ezimage} alt="{'Up'|i18n( 'design/admin/class/edit' )}" name="MoveUp_{$Attributes.item.id}" title="{'Use the order buttons to set the order of the class attributes. The up arrow moves the attribute one place up. The down arrow moves the attribute one place down.'|i18n( 'design/admin/class/edit' )}" onclick="xajax_moveClassAttribute( {$Attributes.item.id}, 0 );return false;"/>
       </div>
     </th>
 </tr>
