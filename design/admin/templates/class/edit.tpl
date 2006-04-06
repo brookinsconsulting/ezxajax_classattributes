@@ -61,11 +61,13 @@ function addAttribute(classid)
     if ( attributesTable != null && typeSelection != null )
     {
         var selectedOption = typeSelection.options[typeSelection.selectedIndex];
-        xajax_addClassAttribute( classid, selectedOption.value );
+        var success = xajax_addClassAttribute( classid, selectedOption.value );
+        return success;
     }
     else
     {
         window.alert( 'Unable to find attributes table or datatype selection box.' );
+        return false;
     }
 }
 
@@ -178,6 +180,8 @@ function moveAttributeRows( attribid, direction )
 -->
 </script>
 
+{def $hasXajaxAccess=fetch('user','has_access_to',hash('module','xajax','function','all'))}
+
 {* Warnings *}
 
 {section show=$validation.processed}
@@ -283,12 +287,8 @@ function moveAttributeRows( attribid, direction )
     <th class="wide">{$Attributes.number}. {$Attributes.item.name|wash} [{$Attributes.item.data_type.information.name|wash}] (id:{$Attributes.item.id})</th>
     <th class="tight">
       <div class="listbutton">
-          <input type="image" src={'button-move_down.gif'|ezimage} alt="{'Down'|i18n( 'design/admin/class/edit' )}" name="MoveDown_{$Attributes.item.id}" title="{'Use the order buttons to set the order of the class attributes. The up arrow moves the attribute one place up. The down arrow moves the attribute one place down.'|i18n( 'design/admin/class/edit' )}" />&nbsp;
-          <input type="image" src={'button-move_up.gif'|ezimage} alt="{'Up'|i18n( 'design/admin/class/edit' )}" name="MoveUp_{$Attributes.item.id}" title="{'Use the order buttons to set the order of the class attributes. The up arrow moves the attribute one place up. The down arrow moves the attribute one place down.'|i18n( 'design/admin/class/edit' )}" />
-      </div>
-      <div class="listbutton">
-          <input type="image" src={'button-move_down.gif'|ezimage} alt="{'Down'|i18n( 'design/admin/class/edit' )}" name="MoveDown_{$Attributes.item.id}" title="{'Use the order buttons to set the order of the class attributes. The up arrow moves the attribute one place up. The down arrow moves the attribute one place down.'|i18n( 'design/admin/class/edit' )}" onclick="xajax_moveClassAttribute( {$Attributes.item.id}, 1 );return false;"/>&nbsp;
-          <input type="image" src={'button-move_up.gif'|ezimage} alt="{'Up'|i18n( 'design/admin/class/edit' )}" name="MoveUp_{$Attributes.item.id}" title="{'Use the order buttons to set the order of the class attributes. The up arrow moves the attribute one place up. The down arrow moves the attribute one place down.'|i18n( 'design/admin/class/edit' )}" onclick="xajax_moveClassAttribute( {$Attributes.item.id}, 0 );return false;"/>
+          <input type="image" src={'button-move_down.gif'|ezimage} alt="{'Down'|i18n( 'design/admin/class/edit' )}" name="MoveDown_{$Attributes.item.id}" title="{'Use the order buttons to set the order of the class attributes. The up arrow moves the attribute one place up. The down arrow moves the attribute one place down.'|i18n( 'design/admin/class/edit' )}" {if $hasXajaxAccess}onclick="javascript:var result=xajax_moveClassAttribute( {$Attributes.item.id}, 1 );return !result;"{/if} />&nbsp;
+          <input type="image" src={'button-move_up.gif'|ezimage} alt="{'Up'|i18n( 'design/admin/class/edit' )}" name="MoveUp_{$Attributes.item.id}" title="{'Use the order buttons to set the order of the class attributes. The up arrow moves the attribute one place up. The down arrow moves the attribute one place down.'|i18n( 'design/admin/class/edit' )}" {if $hasXajaxAccess}onclick="javascript:var result=xajax_moveClassAttribute( {$Attributes.item.id}, 0 );return !result;"{/if} />
       </div>
     </th>
 </tr>
@@ -388,13 +388,7 @@ function moveAttributeRows( attribid, direction )
 
 <div class="block">
 {include uri="design:class/datatypes.tpl" name=DataTypes id_name=DataTypeString datatypes=$datatypes current=$datatype}
-<input class="button" type="submit" name="NewButton" value="{'Add attribute'|i18n( 'design/admin/class/edit' )}" title="{'Add a new attribute to the class. Use the menu on the left to select the attribute type.'|i18n( 'design/admin/class/edit' )}" />
-
-{def $hasXajaxAccess=fetch('user','has_access_to',hash('module','xajax','function','all'))}
-{if $hasXajaxAccess}
-<input class="button" type="button" name="NewAjaxButton" value="{'Add attribute with Ajax'|i18n( 'design/admin/class/edit' )}" title="{'Add a new attribute to the class. Use the menu on the left to select the attribute type.'|i18n( 'design/admin/class/edit' )}" onclick="javascript:addAttribute({$class.id});"/>
-{/if}
-{undef $hasXajaxAccess}
+<input class="button" type="submit" name="NewButton" value="{'Add attribute'|i18n( 'design/admin/class/edit' )}" title="{'Add a new attribute to the class. Use the menu on the left to select the attribute type.'|i18n( 'design/admin/class/edit' )}" {if $hasXajaxAccess}onclick="javascript:var result=addAttribute({$class.id}); return !result;"{/if} />
 </div>
 
 </div>
@@ -434,3 +428,5 @@ function moveAttributeRows( attribid, direction )
 -->
 </script>
 {/literal}
+
+{undef $hasXajaxAccess}
