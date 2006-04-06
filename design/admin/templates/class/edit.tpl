@@ -2,6 +2,57 @@
 <!--
 {literal}
 
+function toggleEvenRows(tableid, show)
+{
+    var attributesTable=document.getElementById( tableid );
+    var display;
+
+    if ( attributesTable != null )
+    {
+        var rows=attributesTable.rows;
+
+        var i;
+        var style;
+        var row;
+
+        for(i=0;i<rows.length;i++)
+        {
+            if ( ( i % 2 ) == 1 )
+            {
+                row = rows[i];
+                style = row.style;
+                if ( row.currentStyle )
+                {
+                    // Internet Explorer way
+                    if ( show )
+                    {
+                        display = 'block';
+                    }
+                    else
+                    {
+                        display = 'none';
+                    }
+                }
+                else
+                {
+                    // W3C DOM way
+
+                    if ( show )
+                    {
+                        display = 'table-row';
+                    }
+                    else
+                    {
+                        display = 'none';
+                    }
+                }
+
+                style.display = display;
+            }
+        }
+    }  
+}
+
 function addAttribute(classid)
 {
     var typeSelection=document.getElementById( 'DataTypeString' );
@@ -217,6 +268,10 @@ function moveAttributeRows( attribid, direction )
     <label>{'Container'|i18n( 'design/admin/class/edit' )}:</label>
     <input type="hidden" name="ContentClass_is_container_exists" value="1" />
     <input type="checkbox" name="ContentClass_is_container_checked" value="{$class.is_container}" {section show=$class.is_container|eq( 1 )}checked="checked"{/section} title="{'Use this checkbox to allow instances of the class to have sub items. If checked, it will be possible to create new sub-items. If not checked, the sub items will not be displayed.'|i18n( 'design/admin/class/edit' )}" />
+    </div>
+
+    <div class="block">
+        <input type="button" class="button" value="{'Collapse all'|i18n( 'design/admin/class/edit' )}" onclick="javascript:toggleEvenRows('AttributesTable',false);" /> <input type="button" class="button" value="{'Expand all'|i18n( 'design/admin/class/edit' )}" onclick="javascript:toggleEvenRows('AttributesTable',true);" />
     </div>
 
 <table class="list" cellspacing="0" id="AttributesTable">
