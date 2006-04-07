@@ -1,185 +1,3 @@
-<script type="text/javascript">
-<!--
-{literal}
-
-function toggleEvenRows(tableid, show)
-{
-    var attributesTable=document.getElementById( tableid );
-    var display;
-
-    if ( attributesTable != null )
-    {
-        var rows=attributesTable.rows;
-
-        var i;
-        var style;
-        var row;
-
-        for(i=0;i<rows.length;i++)
-        {
-            if ( ( i % 2 ) == 1 )
-            {
-                row = rows[i];
-                style = row.style;
-                if ( row.currentStyle )
-                {
-                    // Internet Explorer way
-                    if ( show )
-                    {
-                        display = 'block';
-                    }
-                    else
-                    {
-                        display = 'none';
-                    }
-                }
-                else
-                {
-                    // W3C DOM way
-
-                    if ( show )
-                    {
-                        display = 'table-row';
-                    }
-                    else
-                    {
-                        display = 'none';
-                    }
-                }
-
-                style.display = display;
-            }
-        }
-    }  
-}
-
-function addAttribute(classid)
-{
-    var typeSelection=document.getElementById( 'DataTypeString' );
-    var attributesTable=document.getElementById( 'AttributesTable' );
-
-    if ( attributesTable != null && typeSelection != null )
-    {
-        var selectedOption = typeSelection.options[typeSelection.selectedIndex];
-        var success = xajax_addClassAttribute( classid, selectedOption.value );
-        return success;
-    }
-    else
-    {
-        window.alert( 'Unable to find attributes table or datatype selection box.' );
-        return false;
-    }
-}
-
-function addNewAttributeRows( attribid )
-{
-    var table=document.getElementById( "AttributesTable" );
-
-    if ( table != null )
-    {
-        var rows=table.rows;
-
-        var newHeaderRow=table.insertRow(rows.length);
-        newHeaderRow.id="AttributeHeaderRow_" + attribid;
-
-        var newHeader1=document.createElement( "th" );
-        newHeader1.className="tight";
-        newHeaderRow.appendChild(newHeader1);
-        newHeader1.id="newHeader" + attribid + "_1";
-
-        var newHeader2=document.createElement( "th" );
-        newHeader2.className="wide";
-        newHeaderRow.appendChild(newHeader2);
-        newHeader2.id="newHeader" + attribid + "_2";
-
-        var newHeader3=document.createElement( "th" );
-        newHeader3.className="tight";
-        newHeaderRow.appendChild(newHeader3);
-        newHeader3.id="newHeader" + attribid + "_3";
-
-        var newRow=table.insertRow(rows.length);
-        newRow.id="newRow" + attribid;
-
-        var newCell1=newRow.insertCell(0);
-        newCell1.id="newCell" + attribid + "_1";
-
-        var newCell2=newRow.insertCell(1);
-        newCell2.colSpan=2;
-        newCell2.id="newCell" + attribid + "_2";
-    }
-    else
-    {
-        window.alert( 'Unable to find attributes table.' );
-    }
-}
-
-function moveAttributeRows( attribid, direction )
-{
-    var attributesTable=document.getElementById( 'AttributesTable' );
-
-    if ( attributesTable != null )
-    {
-        var rows=attributesTable.rows;
-
-        var i;
-        var element;
-        for(i=0;i<rows.length;i++)
-        {
-            if ( rows[i].id == ( "AttributeHeaderRow_" +  attribid ) )
-            {
-                attributeHeader = rows[i];
-                attribute = rows[i+1];
-
-                if ( direction )
-                {
-                    //move down
-                    if ( i == rows.length -2 )
-                    {
-                        // last attribute, move to top
-                        attribute.parentNode.insertBefore( attribute, rows[0] );
-                        attribute.parentNode.insertBefore( attributeHeader, attribute );
-                        break;
-                    }
-                    else
-                    {
-                        var nextAttributeHeader = rows[i+2];
-                        var nextAttribute = rows[i+3];
-                        attribute.parentNode.insertBefore( nextAttribute, attributeHeader );
-                        attribute.parentNode.insertBefore( nextAttributeHeader, nextAttribute );
-                        break;
-                    }
-                }
-                else
-                {
-                    // move up
-                    if ( i == 0 )
-                    {
-                        // first attribute, move to bottom
-                        attribute.parentNode.appendChild( attribute );
-                        attribute.parentNode.insertBefore( attributeHeader, attribute );
-                        break;
-                    }
-                    else
-                    {
-                        var previousAttributeHeader = rows[i-2];
-                        attribute.parentNode.insertBefore( attribute, previousAttributeHeader );
-                        attribute.parentNode.insertBefore( attributeHeader, attribute );
-                        break;
-                    }
-                }
-            }
-        }
-    }
-    else
-    {
-        window.alert( 'Unable to find attributes table.' );
-    }
-}
-
-{/literal}
--->
-</script>
-
 {def $hasXajaxAccess=fetch('user','has_access_to',hash('module','xajax','function','all'))}
 
 {* Warnings *}
@@ -275,7 +93,11 @@ function moveAttributeRows( attribid, direction )
     </div>
 
     <div class="block">
-        <input type="button" class="button" value="{'Collapse all'|i18n( 'design/admin/class/edit' )}" onclick="javascript:toggleEvenRows('AttributesTable',false);" /> <input type="button" class="button" value="{'Expand all'|i18n( 'design/admin/class/edit' )}" onclick="javascript:toggleEvenRows('AttributesTable',true);" />
+    {section show=$attributes}
+        <input type="button" class="button" id="CollapseButton" value="{'Collapse all'|i18n( 'design/admin/class/edit' )}" onclick="javascript:toggleEvenRows('AttributesTable',false);" /> <input type="button" class="button" id="ExpandButton" value="{'Expand all'|i18n( 'design/admin/class/edit' )}" onclick="javascript:toggleEvenRows('AttributesTable',true);" />
+    {section-else}
+        <input type="button" class="button-disabled" id="CollapseButton" value="{'Collapse all'|i18n( 'design/admin/class/edit' )}" onclick="javascript:toggleEvenRows('AttributesTable',false);" disabled="disabled" /> <input type="button" class="button-disabled" id="ExpandButton" value="{'Expand all'|i18n( 'design/admin/class/edit' )}" onclick="javascript:toggleEvenRows('AttributesTable',true);" disabled="disabled" />
+    {/section}
     </div>
 
 <table class="list" cellspacing="0" id="AttributesTable">
@@ -367,7 +189,7 @@ function moveAttributeRows( attribid, direction )
 
 {section show=$attributes|count|eq(0)}
 
-<div class="block">
+<div class="block" id="NoAttributesMessage">
 <p>{'This class does not have any attributes.'|i18n( 'design/admin/class/edit' )}</p>
 </div>
 {/section}
@@ -380,15 +202,15 @@ function moveAttributeRows( attribid, direction )
 {* Remove selected attributes button *}
 <div class="block">
 {section show=$attributes}
-<input class="button" type="submit" name="RemoveButton" value="{'Remove selected attributes'|i18n( 'design/admin/class/edit' )}" title="{'Remove the selected attributes.'|i18n( 'design/admin/class/edit' )}" />
+<input class="button" type="submit" name="RemoveButton" id="RemoveButton" value="{'Remove selected attributes'|i18n( 'design/admin/class/edit' )}" title="{'Remove the selected attributes.'|i18n( 'design/admin/class/edit' )}" />
 {section-else}
-<input class="button-disabled" type="submit" name="RemoveButton" value="{'Remove selected attributes'|i18n( 'design/admin/class/edit' )}" title="{'Remove the selected attributes.'|i18n( 'design/admin/class/edit' )}" disabled="disabled" />
+<input class="button-disabled" type="submit" name="RemoveButton" id="RemoveButton" value="{'Remove selected attributes'|i18n( 'design/admin/class/edit' )}" title="{'Remove the selected attributes.'|i18n( 'design/admin/class/edit' )}" disabled="disabled" />
 {/section}
 </div>
 
 <div class="block">
 {include uri="design:class/datatypes.tpl" name=DataTypes id_name=DataTypeString datatypes=$datatypes current=$datatype}
-<input class="button" type="submit" name="NewButton" value="{'Add attribute'|i18n( 'design/admin/class/edit' )}" title="{'Add a new attribute to the class. Use the menu on the left to select the attribute type.'|i18n( 'design/admin/class/edit' )}" {if $hasXajaxAccess}onclick="javascript:var result=addAttribute({$class.id}); return !result;"{/if} />
+<input class="button" type="submit" name="NewButton" value="{'Add attribute'|i18n( 'design/admin/class/edit' )}" title="{'Add a new attribute to the class. Use the menu on the left to select the attribute type.'|i18n( 'design/admin/class/edit' )}" {if $hasXajaxAccess}onclick="javascript:var result=addAttribute('DataTypeString', 'AttributesTable',{$class.id}); return !result;"{/if} />
 </div>
 
 </div>
