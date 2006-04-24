@@ -7,9 +7,9 @@ function addClassAttribute( $classID, $datatypeString )
     include_once( 'kernel/classes/datatypes/ezuser/ezuser.php' );
 
     $user =& eZUser::currentUser();
-    $accessRsult = $user->hasAccessTo( 'class', 'edit' );
+    $accessResult = $user->hasAccessTo( 'class', 'edit' );
 
-    if ( $result['accessWord'] == 'no' )
+    if ( $accessResult['accessWord'] == 'no' )
     {
         $objResponse->addAlert( 'You are not allowed to edit content classes' );
         return $objResponse->getXML();
@@ -85,9 +85,9 @@ function moveClassAttribute( $attributeID, $direction )
     include_once( 'kernel/classes/datatypes/ezuser/ezuser.php' );
 
     $user =& eZUser::currentUser();
-    $accessRsult = $user->hasAccessTo( 'class', 'edit' );
+    $accessResult = $user->hasAccessTo( 'class', 'edit' );
 
-    if ( $result['accessWord'] == 'no' )
+    if ( $accessResult['accessWord'] == 'no' )
     {
         $objResponse->addAlert( 'You are not allowed to edit content classes' );
         return $objResponse->getXML();
