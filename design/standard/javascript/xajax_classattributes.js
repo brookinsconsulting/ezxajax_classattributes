@@ -107,6 +107,11 @@ function addNewAttributeRows(attribid)
 
 function moveAttributeRows( attribid, direction )
 {
+    if ( typeof direction == 'string' ) {
+        var directionInt = parseInt(direction);
+        var directionBool = new Boolean(directionInt);
+        direction = directionBool.valueOf();
+    }
     var attributesTable=document.getElementById( 'AttributesTable' );
 
     if ( attributesTable != null )
