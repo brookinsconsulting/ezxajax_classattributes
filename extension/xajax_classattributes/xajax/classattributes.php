@@ -67,7 +67,7 @@ function addClassAttribute( $classID, $datatypeString )
 
     $cell2 =& $tpl->fetch( 'design:class/edit_xajax_attribute_cell_2.tpl' );
 
-    $objResponse->addScript( 'addNewAttributeRows( ' . $new_attribute->attribute( 'id' ) . ');' );
+    $objResponse->addScriptCall( 'addNewAttributeRows', $new_attribute->attribute( 'id' ) );
 
     $objResponse->addAssign( 'newHeader' . $new_attribute->attribute( 'id' ) . '_1', 'innerHTML', $header1 );
     $objResponse->addAssign( 'newHeader' . $new_attribute->attribute( 'id' ) . '_2', 'innerHTML', $header2 );
@@ -132,7 +132,7 @@ function moveClassAttribute( $attributeID, $direction )
     }
 
     $attribute->move( $direction );
-    $objResponse->addScript( 'moveAttributeRows(' . $attributeID . ', ' . $direction . ' );' );
+    $objResponse->addScriptCall( 'moveAttributeRows', $attributeID, $direction );
 
     return $objResponse->getXML();
 
