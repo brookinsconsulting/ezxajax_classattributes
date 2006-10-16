@@ -11,8 +11,8 @@ function addClassAttribute( $classID, $datatypeString )
 
     if ( $accessResult['accessWord'] == 'no' )
     {
-        $objResponse->addAlert( 'You are not allowed to edit content classes' );
-        return $objResponse->getXML();
+        $objResponse->alert( 'You are not allowed to edit content classes' );
+        return $objResponse;
     }
 
     include_once( 'kernel/classes/ezcontentclass.php' );
@@ -20,8 +20,8 @@ function addClassAttribute( $classID, $datatypeString )
 
     if ( !is_object( $class ) or $class->attribute( 'id' ) == null )
     {
-        $objResponse->addAlert( 'Unable to find the temporary version of the class.' );
-        return $objResponse->getXML();
+        $objResponse->alert( 'Unable to find the temporary version of the class.' );
+        return $objResponse;
     }
     else
     {
@@ -37,8 +37,8 @@ function addClassAttribute( $classID, $datatypeString )
             $message = 'This class is already being edited by someone else.';
             $message = $message . ' The class is temporarly locked and thus it can not be edited by you.';
 
-            $objResponse->addAlert( $message );
-            return $objResponse->getXML();
+            $objResponse->alert( $message );
+            return $objResponse;
         }
     }
 
@@ -67,15 +67,15 @@ function addClassAttribute( $classID, $datatypeString )
 
     $cell2 =& $tpl->fetch( 'design:class/edit_xajax_attribute_cell_2.tpl' );
 
-    $objResponse->addScriptCall( 'addNewAttributeRows', $new_attribute->attribute( 'id' ) );
+    $objResponse->call( 'addNewAttributeRows', $new_attribute->attribute( 'id' ) );
 
-    $objResponse->addAssign( 'newHeader' . $new_attribute->attribute( 'id' ) . '_1', 'innerHTML', $header1 );
-    $objResponse->addAssign( 'newHeader' . $new_attribute->attribute( 'id' ) . '_2', 'innerHTML', $header2 );
-    $objResponse->addAssign( 'newHeader' . $new_attribute->attribute( 'id' ) . '_3', 'innerHTML', $header3 );
+    $objResponse->assign( 'newHeader' . $new_attribute->attribute( 'id' ) . '_1', 'innerHTML', $header1 );
+    $objResponse->assign( 'newHeader' . $new_attribute->attribute( 'id' ) . '_2', 'innerHTML', $header2 );
+    $objResponse->assign( 'newHeader' . $new_attribute->attribute( 'id' ) . '_3', 'innerHTML', $header3 );
 
-    $objResponse->addAssign( 'newCell' . $new_attribute->attribute( 'id' ) . '_2', 'innerHTML', $cell2 );
+    $objResponse->assign( 'newCell' . $new_attribute->attribute( 'id' ) . '_2', 'innerHTML', $cell2 );
 
-    return $objResponse->getXML();
+    return $objResponse;
 }
 
 function moveClassAttribute( $attributeID, $direction )
@@ -89,8 +89,8 @@ function moveClassAttribute( $attributeID, $direction )
 
     if ( $accessResult['accessWord'] == 'no' )
     {
-        $objResponse->addAlert( 'You are not allowed to edit content classes' );
-        return $objResponse->getXML();
+        $objResponse->alert( 'You are not allowed to edit content classes' );
+        return $objResponse;
     }
 
     $attribute =& eZContentClassAttribute::fetch( $attributeID, true, EZ_CLASS_VERSION_STATUS_TEMPORARY,
@@ -98,8 +98,8 @@ function moveClassAttribute( $attributeID, $direction )
 
     if ( !$attribute )
     {
-        $objResponse->addAlert( 'Unable to fetch the class attribute.' );
-        return $objResponse->getXML();
+        $objResponse->alert( 'Unable to fetch the class attribute.' );
+        return $objResponse;
     }
 
     $classID = $attribute->attribute( 'contentclass_id' );
@@ -109,8 +109,8 @@ function moveClassAttribute( $attributeID, $direction )
 
     if ( !is_object( $class ) or $class->attribute( 'id' ) == null )
     {
-        $objResponse->addAlert( 'Unable to find the temporary version of the class.' );
-        return $objResponse->getXML();
+        $objResponse->alert( 'Unable to find the temporary version of the class.' );
+        return $objResponse;
     }
     else
     {
@@ -126,15 +126,15 @@ function moveClassAttribute( $attributeID, $direction )
             $message = 'This class is already being edited by someone else.';
             $message = $message . ' The class is temporarly locked and thus it can not be edited by you.';
 
-            $objResponse->addAlert( $message );
-            return $objResponse->getXML();
+            $objResponse->alert( $message );
+            return $objResponse;
         }
     }
 
     $attribute->move( $direction );
-    $objResponse->addScriptCall( 'moveAttributeRows', $attributeID, $direction );
+    $objResponse->call( 'moveAttributeRows', $attributeID, $direction );
 
-    return $objResponse->getXML();
+    return $objResponse;
 
 }
 
