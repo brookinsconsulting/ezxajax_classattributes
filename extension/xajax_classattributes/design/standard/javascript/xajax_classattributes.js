@@ -135,6 +135,7 @@ function moveAttributeRows( attribid, direction )
                         // last attribute, move to top
                         attribute.parentNode.insertBefore( attribute, rows[0] );
                         attribute.parentNode.insertBefore( attributeHeader, attribute );
+                        recalculatePlacement();
                         break;
                     }
                     else
@@ -143,6 +144,7 @@ function moveAttributeRows( attribid, direction )
                         var nextAttribute = rows[i+3];
                         attribute.parentNode.insertBefore( nextAttribute, attributeHeader );
                         attribute.parentNode.insertBefore( nextAttributeHeader, nextAttribute );
+                        recalculatePlacement();
                         break;
                     }
                 }
@@ -154,6 +156,7 @@ function moveAttributeRows( attribid, direction )
                         // first attribute, move to bottom
                         attribute.parentNode.appendChild( attribute );
                         attribute.parentNode.insertBefore( attributeHeader, attribute );
+                        recalculatePlacement();
                         break;
                     }
                     else
@@ -161,10 +164,25 @@ function moveAttributeRows( attribid, direction )
                         var previousAttributeHeader = rows[i-2];
                         attribute.parentNode.insertBefore( attribute, previousAttributeHeader );
                         attribute.parentNode.insertBefore( attributeHeader, attribute );
+                        recalculatePlacement();
                         break;
                     }
                 }
             }
+        }
+    }
+}
+
+function recalculatePlacement()
+{
+    var attributesForm=document.getElementById( 'ClassEditForm' );
+    var priortyBox = attributesForm.elements;
+    j=1;
+    for(i=0;i<priortyBox.length;i++ )
+    {
+        if( (priortyBox[i].id).substring(0, 17 ) =='AttributePriority' )
+        {
+            priortyBox[i].value = j++;
         }
     }
 }
