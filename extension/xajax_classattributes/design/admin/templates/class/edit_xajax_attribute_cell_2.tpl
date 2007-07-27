@@ -31,7 +31,7 @@
 {section show=$attribute.data_type.is_indexable}
 <input type="checkbox" name="ContentAttribute_is_searchable_checked[]" value="{$attribute.id}"  {section show=$attribute.is_searchable}checked="checked"{/section} title="{'Use this checkbox to control if the contents of the attribute should be indexed by the search engine.'|i18n( 'design/admin/class/edit' )}" />
 {section-else}
-<input type="checkbox" name="" value="" disabled="disabled" title="{'The <%datatype_name> datatype does not support search indexing.'|i18n( 'design/admin/class/edit',, hash( '%datatype_name', $attribute.data_type.information.name ) )|wash}" />
+<input type="checkbox" name="ContentAttribute_is_searchable_checked[]" value="" disabled="disabled" title="{'The <%datatype_name> datatype does not support search indexing.'|i18n( 'design/admin/class/edit',, hash( '%datatype_name', $attribute.data_type.information.name ) )|wash}" />
 {/section}
 {'Searchable'|i18n( 'design/admin/class/edit' )}
 </label>
@@ -41,7 +41,7 @@
 {section show=$attribute.data_type.is_information_collector}
 <input type="checkbox" name="ContentAttribute_is_information_collector_checked[]" value="{$attribute.id}"  {section show=$attribute.is_information_collector}checked="checked"{/section} title="{'Use this checkbox to control if the attribute should collect input from users.'|i18n( 'design/admin/class/edit' )}" />
 {section-else}
-<input type="checkbox" name="" value="" disabled="disabled" title="{'The <%datatype_name> datatype can not be used as an information collector.'|i18n( 'design/admin/class/edit',, hash( '%datatype_name', $attribute.data_type.information.name ) )|wash}" />
+<input type="checkbox" name="ContentAttribute_is_information_collector_checked[]" value="" disabled="disabled" title="{'The <%datatype_name> datatype can not be used as an information collector.'|i18n( 'design/admin/class/edit',, hash( '%datatype_name', $attribute.data_type.information.name ) )|wash}" />
 {/section}
 {'Information collector'|i18n( 'design/admin/class/edit' )}
 </label>
