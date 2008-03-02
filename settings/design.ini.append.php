@@ -1,9 +1,9 @@
 <?php /*
 
 [ExtensionSettings]
-DesignExtensions[]=xajax_classattributes
+DesignExtensions[]=ezxajax_classattributes
 
 [JavaScriptSettings]
-JavaScriptList[]=xajax_classattributes.js
+JavaScriptList[]=ezxajax_classattributes.js
 
 */ ?>

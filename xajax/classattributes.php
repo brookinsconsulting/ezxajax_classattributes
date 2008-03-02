@@ -61,11 +61,11 @@ function addClassAttribute( $classID, $datatypeString )
     $tpl->setVariable( 'attribute', $new_attribute );
     $tpl->setVariable( 'number', $number );
 
-    $header1 =& $tpl->fetch( 'design:class/edit_xajax_attribute_header_1.tpl' );
-    $header2 =& $tpl->fetch( 'design:class/edit_xajax_attribute_header_2.tpl' );
-    $header3 =& $tpl->fetch( 'design:class/edit_xajax_attribute_header_3.tpl' );
+    $header1 =& $tpl->fetch( 'design:class/edit_ezxajax_attribute_header_1.tpl' );
+    $header2 =& $tpl->fetch( 'design:class/edit_ezxajax_attribute_header_2.tpl' );
+    $header3 =& $tpl->fetch( 'design:class/edit_ezxajax_attribute_header_3.tpl' );
 
-    $cell2 =& $tpl->fetch( 'design:class/edit_xajax_attribute_cell_2.tpl' );
+    $cell2 =& $tpl->fetch( 'design:class/edit_ezxajax_attribute_cell_2.tpl' );
 
     $objResponse->call( 'addNewAttributeRows', $new_attribute->attribute( 'id' ) );
 

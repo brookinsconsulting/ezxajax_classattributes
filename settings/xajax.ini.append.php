@@ -1,7 +1,7 @@
 <?php /*
 
 [ExtensionSettings]
-ExtensionDirectories[]=xajax_classattributes
+ExtensionDirectories[]=ezxajax_classattributes
 
 AvailableFunctions[addClassAttribute]=classattributes
 AvailableFunctions[moveClassAttribute]=classattributes
