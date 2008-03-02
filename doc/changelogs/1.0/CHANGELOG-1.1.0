@@ -1,6 +1,4 @@
-1.1
+Changes for 1.1.0
+
 - basic reordering functionality
 - fixed: number of a new attribute is sometimes wrong (placement was used)
-
-1.0
-- initial public release
