@@ -84,7 +84,7 @@ function moveClassAttribute( $attributeID, $direction )
 
     include_once( 'kernel/classes/datatypes/ezuser/ezuser.php' );
 
-    $user =& eZUser::currentUser();
+    $user = eZUser::currentUser();
     $accessResult = $user->hasAccessTo( 'class', 'edit' );
 
     if ( $accessResult['accessWord'] == 'no' )
@@ -93,7 +93,7 @@ function moveClassAttribute( $attributeID, $direction )
         return $objResponse;
     }
 
-    $attribute =& eZContentClassAttribute::fetch( $attributeID, true, EZ_CLASS_VERSION_STATUS_TEMPORARY,
+    $attribute = eZContentClassAttribute::fetch( $attributeID, true, EZ_CLASS_VERSION_STATUS_TEMPORARY,
                                                   array( 'contentclass_id', 'version', 'placement' ) );
 
     if ( !$attribute )
@@ -117,7 +117,7 @@ function moveClassAttribute( $attributeID, $direction )
         include_once( 'lib/ezlocale/classes/ezdatetime.php' );
 
         include_once( 'lib/ezutils/classes/ezini.php' );
-        $contentIni =& eZIni::instance( 'content.ini' );
+        $contentIni = eZIni::instance( 'content.ini' );
         $timeOut = $contentIni->variable( 'ClassSettings', 'DraftTimeout' );
 
         if ( $class->attribute( 'modifier_id' ) != $user->attribute( 'contentobject_id' ) &&

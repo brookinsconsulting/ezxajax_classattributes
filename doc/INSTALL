@@ -14,7 +14,7 @@ Activate the xajax_classattributes extension by using the admin interface
 or in settings/override/site.ini.append(.php):
 
 [ExtensionSettings]
-ActiveExtensions[]=xajax_classattributes
+ActiveExtensions[]=ezxajax_classattributes
 
 
  2. Clear caches

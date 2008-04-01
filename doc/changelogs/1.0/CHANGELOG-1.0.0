@@ -1,3 +1,5 @@
-Changes for 1.0.0
+Changes for 2.0.0
 
-- First public relase.
+- new version for ez4 and php5
+- renaming xajax => ezxajax
+- removing strict warning

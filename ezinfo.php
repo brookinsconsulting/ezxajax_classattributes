@@ -1,11 +1,11 @@
 <?php
 class ezxajax_classattributesInfo
 {
-    function info()
+    static function info()
     {
         return array(
             'Name' => "<a href='http://projects.ez.no/ezxajax_classattributes'>ezxajax_classattributes</a>",
-            'Version' => "1.1",
+            'Version' => "2.0.0",
             'Copyright' => "Copyright (C) 2006 SCK-CEN",
             'Author' => "Kristof Coomans",
             'License' => "GNU General Public License",
