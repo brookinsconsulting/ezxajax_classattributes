@@ -2,3 +2,5 @@ Changes for 2.0.0
 
 - version for ez4 and php5
 - removing strict warnings
+
+- 20080415 fix bug add new classattribute in new content class failed

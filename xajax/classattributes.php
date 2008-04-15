@@ -16,7 +16,7 @@ function addClassAttribute( $classID, $datatypeString )
     }
 
     include_once( 'kernel/classes/ezcontentclass.php' );
-    $class = eZContentClass::fetch( $classID, true, EZ_CLASS_VERSION_STATUS_TEMPORARY );
+    $class = eZContentClass::fetch( $classID, true, eZContentClass::VERSION_STATUS_TEMPORARY );
 
     if ( !is_object( $class ) or $class->attribute( 'id' ) == null )
     {
@@ -42,7 +42,7 @@ function addClassAttribute( $classID, $datatypeString )
         }
     }
 
-    $existingAttributes =& eZContentClass::fetchAttributes( $classID, false, EZ_CLASS_VERSION_STATUS_TEMPORARY );
+    $existingAttributes =& eZContentClass::fetchAttributes( $classID, false, eZContentClass::VERSION_STATUS_TEMPORARY );
 
     $number = count( $existingAttributes ) + 1;
 
@@ -93,7 +93,7 @@ function moveClassAttribute( $attributeID, $direction )
         return $objResponse;
     }
 
-    $attribute = eZContentClassAttribute::fetch( $attributeID, true, EZ_CLASS_VERSION_STATUS_TEMPORARY,
+    $attribute = eZContentClassAttribute::fetch( $attributeID, true, eZContentClass::VERSION_STATUS_TEMPORARY,
                                                   array( 'contentclass_id', 'version', 'placement' ) );
 
     if ( !$attribute )
@@ -105,7 +105,7 @@ function moveClassAttribute( $attributeID, $direction )
     $classID = $attribute->attribute( 'contentclass_id' );
 
     include_once( 'kernel/classes/ezcontentclass.php' );
-    $class = eZContentClass::fetch( $classID, true, EZ_CLASS_VERSION_STATUS_TEMPORARY );
+    $class = eZContentClass::fetch( $classID, true, eZContentClass::VERSION_STATUS_TEMPORARY );
 
     if ( !is_object( $class ) or $class->attribute( 'id' ) == null )
     {
