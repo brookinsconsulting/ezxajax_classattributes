@@ -42,8 +42,7 @@ function addClassAttribute( $classID, $datatypeString )
         }
     }
 
-    $contentClass = new eZContentClass();
-    $existingAttributes = $contentClass->fetchAttributes( $classID, false, eZContentClass::VERSION_STATUS_TEMPORARY );
+    $existingAttributes = $class->fetchAttributes( false, false );
 
     $number = count( $existingAttributes ) + 1;
 
