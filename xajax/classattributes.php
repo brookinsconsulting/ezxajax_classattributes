@@ -6,7 +6,7 @@ function addClassAttribute( $classID, $datatypeString )
 
     include_once( 'kernel/classes/datatypes/ezuser/ezuser.php' );
 
-    $user =& eZUser::currentUser();
+    $user = eZUser::currentUser();
     $accessResult = $user->hasAccessTo( 'class', 'edit' );
 
     if ( $accessResult['accessWord'] == 'no' )
@@ -28,7 +28,7 @@ function addClassAttribute( $classID, $datatypeString )
         include_once( 'lib/ezlocale/classes/ezdatetime.php' );
 
         include_once( 'lib/ezutils/classes/ezini.php' );
-        $contentIni =& eZIni::instance( 'content.ini' );
+        $contentIni = eZIni::instance( 'content.ini' );
         $timeOut = $contentIni->variable( 'ClassSettings', 'DraftTimeout' );
 
         if ( $class->attribute( 'modifier_id' ) != $user->attribute( 'contentobject_id' ) &&
@@ -42,7 +42,8 @@ function addClassAttribute( $classID, $datatypeString )
         }
     }
 
-    $existingAttributes =& eZContentClass::fetchAttributes( $classID, false, eZContentClass::VERSION_STATUS_TEMPORARY );
+    $contentClass = new eZContentClass();
+    $existingAttributes = $contentClass->fetchAttributes( $classID, false, eZContentClass::VERSION_STATUS_TEMPORARY );
 
     $number = count( $existingAttributes ) + 1;
 
@@ -56,16 +57,16 @@ function addClassAttribute( $classID, $datatypeString )
     $new_attribute->store();
 
     include_once( 'kernel/common/template.php' );
-    $tpl =& templateInit();
+    $tpl = templateInit();
 
     $tpl->setVariable( 'attribute', $new_attribute );
     $tpl->setVariable( 'number', $number );
 
-    $header1 =& $tpl->fetch( 'design:class/edit_ezxajax_attribute_header_1.tpl' );
-    $header2 =& $tpl->fetch( 'design:class/edit_ezxajax_attribute_header_2.tpl' );
-    $header3 =& $tpl->fetch( 'design:class/edit_ezxajax_attribute_header_3.tpl' );
+    $header1 = $tpl->fetch( 'design:class/edit_ezxajax_attribute_header_1.tpl' );
+    $header2 = $tpl->fetch( 'design:class/edit_ezxajax_attribute_header_2.tpl' );
+    $header3 = $tpl->fetch( 'design:class/edit_ezxajax_attribute_header_3.tpl' );
 
-    $cell2 =& $tpl->fetch( 'design:class/edit_ezxajax_attribute_cell_2.tpl' );
+    $cell2 = $tpl->fetch( 'design:class/edit_ezxajax_attribute_cell_2.tpl' );
 
     $objResponse->call( 'addNewAttributeRows', $new_attribute->attribute( 'id' ) );
 

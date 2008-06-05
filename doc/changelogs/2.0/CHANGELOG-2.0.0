@@ -4,3 +4,4 @@ Changes for 2.0.0
 - removing strict warnings
 
 - 20080415 fix bug add new classattribute in new content class failed
+- 20080605 remove strict warnings in xajax classattributes
