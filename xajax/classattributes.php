@@ -4,8 +4,6 @@ function addClassAttribute( $classID, $datatypeString )
 {
     $objResponse = new xajaxResponse();
 
-    include_once( 'kernel/classes/datatypes/ezuser/ezuser.php' );
-
     $user = eZUser::currentUser();
     $accessResult = $user->hasAccessTo( 'class', 'edit' );
 
@@ -15,7 +13,6 @@ function addClassAttribute( $classID, $datatypeString )
         return $objResponse;
     }
 
-    include_once( 'kernel/classes/ezcontentclass.php' );
     $class = eZContentClass::fetch( $classID, true, eZContentClass::VERSION_STATUS_TEMPORARY );
 
     if ( !is_object( $class ) or $class->attribute( 'id' ) == null )
@@ -25,9 +22,6 @@ function addClassAttribute( $classID, $datatypeString )
     }
     else
     {
-        include_once( 'lib/ezlocale/classes/ezdatetime.php' );
-
-        include_once( 'lib/ezutils/classes/ezini.php' );
         $contentIni = eZIni::instance( 'content.ini' );
         $timeOut = $contentIni->variable( 'ClassSettings', 'DraftTimeout' );
 
@@ -46,7 +40,6 @@ function addClassAttribute( $classID, $datatypeString )
 
     $number = count( $existingAttributes ) + 1;
 
-    include_once( 'kernel/classes/ezdatatype.php' );
     eZDataType::loadAndRegisterAllTypes();
 
     $new_attribute = eZContentClassAttribute::create( $classID, $datatypeString );
@@ -82,8 +75,6 @@ function moveClassAttribute( $attributeID, $direction )
 {
     $objResponse = new xajaxResponse();
 
-    include_once( 'kernel/classes/datatypes/ezuser/ezuser.php' );
-
     $user = eZUser::currentUser();
     $accessResult = $user->hasAccessTo( 'class', 'edit' );
 
@@ -104,7 +95,6 @@ function moveClassAttribute( $attributeID, $direction )
 
     $classID = $attribute->attribute( 'contentclass_id' );
 
-    include_once( 'kernel/classes/ezcontentclass.php' );
     $class = eZContentClass::fetch( $classID, true, eZContentClass::VERSION_STATUS_TEMPORARY );
 
     if ( !is_object( $class ) or $class->attribute( 'id' ) == null )
@@ -114,9 +104,6 @@ function moveClassAttribute( $attributeID, $direction )
     }
     else
     {
-        include_once( 'lib/ezlocale/classes/ezdatetime.php' );
-
-        include_once( 'lib/ezutils/classes/ezini.php' );
         $contentIni = eZIni::instance( 'content.ini' );
         $timeOut = $contentIni->variable( 'ClassSettings', 'DraftTimeout' );
 
